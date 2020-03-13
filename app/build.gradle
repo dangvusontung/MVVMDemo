@@ -28,7 +28,7 @@ android {
 
 }
 
-def roomVersion = '2.2.1'
+def roomVersion = '2.2.4'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -55,4 +55,6 @@ dependencies {
 
     implementation "androidx.room:room-runtime:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
+
+    implementation 'com.google.android.material:material:1.2.0-alpha05'
 }

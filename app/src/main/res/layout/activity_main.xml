@@ -11,25 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <Button
-        android:id="@+id/deleteButton"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating"
+        android:layout_margin="10dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/deleteSinglePlayerButton"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/addDummyUserButton"
-        app:layout_constraintRight_toLeftOf="@id/deleteButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/addDummyUserButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:src="@drawable/ic_add_circle_black_24dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

@@ -1,28 +1,27 @@
 package sontung.dangvu.daggerdemo
 
-import androidx.appcompat.app.AppCompatActivity
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
+import android.view.LayoutInflater
+import android.widget.EditText
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
-import sontung.dangvu.daggerdemo.model.Bag
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import sontung.dangvu.daggerdemo.model.Player
 import sontung.dangvu.daggerdemo.view.adapter.PlayerAdapter
 import sontung.dangvu.daggerdemo.viewmodel.PlayerViewModel
-import java.lang.NullPointerException
 
 private const val TAG = "$APP_TAG MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var deleteButton: Button
-    private lateinit var addButton : Button
-    private lateinit var deleteSinglePlayerButton : Button
+    private lateinit var floatingButton: FloatingActionButton
 
     private val playerViewModel: PlayerViewModel by viewModels()
 
@@ -38,71 +37,41 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-
         recyclerView.adapter = playerAdapter
-
-        deleteButton = findViewById(R.id.deleteButton)
-        deleteButton.setOnClickListener {
-            Log.d(TAG, "try to delete all player")
-            Thread(Runnable {
-                addPlayerThread.join()
-                playerViewModel.deleteAllPlayer()
-            }).start()
+        floatingButton = findViewById(R.id.floating)
+        floatingButton.setOnClickListener {
+            addPlayer()
         }
-
-        addButton = findViewById(R.id.addDummyUserButton)
-        addButton.setOnClickListener {
-            addDummyPlayer()
-        }
-
-        deleteSinglePlayerButton = findViewById(R.id.deleteSinglePlayerButton)
-        deleteSinglePlayerButton.setOnClickListener {
-            deleteSinglePlayer()
-        }
-
         Log.d(TAG, "onCreate finished()")
 
     }
 
+    @SuppressLint("InflateParams")
+    private fun addPlayer() {
+        Log.d(TAG, "add player called")
+        val dialog = AlertDialog.Builder(this)
+        val customDialogView = LayoutInflater.from(this).inflate(R.layout.add_user_dialog, null)
+        val userNameEditText = customDialogView.findViewById<EditText>(R.id.createUserName)
+        dialog.setView(customDialogView)
+        dialog.setTitle("Add user")
+        dialog.setPositiveButton("Add") { _, _ ->
+            Log.d(TAG, "Add clicked")
+            val userName = userNameEditText.text.toString()
+            val player = Player(userName, 0)
+            Thread(Runnable {
+                Log.d(TAG, "Adding")
+                playerViewModel.addPlayer(player)
+            }).start()
+        }.setNegativeButton("Cancel") { _, _ ->
+            Log.d(TAG, "Cancel clicked")
+        }
+        dialog.create().show()
+    }
+
     private fun deleteSinglePlayer() {
         Log.d(TAG, "deleteSinglePlayer")
-        deleteSinglePlayerThread.start()
+
     }
-
-    val deleteSinglePlayerThread = Thread(Runnable {
-        Log.d(TAG, "i delete")
-        Thread.sleep(2000)
-
-        try {
-            for (i in playerViewModel.getPlayers.value!!.indices){
-                playerViewModel.deletePlayer(playerViewModel.getPlayers.value!![0])
-                Thread.sleep(1000)
-            }
-        } catch (e : NullPointerException){
-            Log.d(TAG, "null")
-        } catch (e : InterruptedException) {
-            Log.d(TAG, "interrupted")
-        }
-    })
-
-    private fun addDummyPlayer() {
-        Log.d(TAG, "addDummyPlayer() called")
-            addPlayerThread.start()
-    }
-
-    val addPlayerThread =  Thread(Runnable {
-        Log.d(TAG, "hey")
-        Thread.sleep(2000)
-
-        try {
-            for (i in 1..10) {
-                playerViewModel.addPlayer(Player("Player $i", i))
-                Thread.sleep(1000)
-            }
-        } catch (e: InterruptedException) {
-            Log.d(TAG, "interrupted")
-        }
-    })
 
     override fun onDestroy() {
         super.onDestroy()
