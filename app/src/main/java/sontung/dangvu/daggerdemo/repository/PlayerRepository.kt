@@ -1,5 +1,6 @@
 package sontung.dangvu.daggerdemo.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import sontung.dangvu.daggerdemo.APP_TAG
 import sontung.dangvu.daggerdemo.db.player.PlayerDao
@@ -25,5 +26,10 @@ class PlayerRepository @Inject constructor(
 
     fun deletePlayer(player: Player) {
         playerDao.deletePlayer(player)
+    }
+
+    fun updatePlayer(player: Player) {
+        Log.d(TAG, "update player")
+        playerDao.updatePlayer(player)
     }
 }

@@ -20,4 +20,7 @@ interface PlayerDao {
 
     @Query ("DELETE FROM player")
     fun deleteAllPlayer()
+
+    @Update
+    fun updatePlayer(player: Player)
 }

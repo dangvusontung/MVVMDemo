@@ -32,4 +32,9 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
         Log.d(TAG, "deleteeee")
         playerRepository.deleteAllPlayer()
     }
+
+    fun updatePlayer(player: Player) {
+        Log.d(TAG, "update player")
+        playerRepository.updatePlayer(player)
+    }
 }

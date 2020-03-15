@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/view_player_detail_navigation"
+    app:startDestination="@id/listPlayerFragment">
+
+    <fragment
+        android:id="@+id/listPlayerFragment"
+        android:name="sontung.dangvu.daggerdemo.view.ui.fragment.ListPlayerFragment"
+        android:label="fragment_list_player"
+        tools:layout="@layout/fragment_list_player">
+        <action
+            android:id="@+id/listToDetail"
+            app:destination="@id/playerDetailFragment"
+            app:launchSingleTop="false"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/playerDetailFragment"
+        android:name="sontung.dangvu.daggerdemo.view.ui.fragment.PlayerDetailFragment"
+        android:label="fragment_player_detail"
+        tools:layout="@layout/fragment_player_detail">
+        <argument
+            android:name="player"
+            app:argType="sontung.dangvu.daggerdemo.model.Player" />
+        <action
+            android:id="@+id/backToList"
+            app:destination="@id/listPlayerFragment" />
+    </fragment>
+</navigation>
